@@ -9,6 +9,12 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\widgets\ActiveForm;
+use app\models\FormRegister;
+use app\models\Users;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 
 class SiteController extends Controller
 {
@@ -98,6 +104,106 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    private function randKey($str='', $long=0)
+    {
+        $key = null;
+        $str = str_split($str);
+        $start = 0;
+        $limit = count($str)-1;
+        for($x=0; $x<$long; $x++)
+        {
+            $key .= $str[rand($start, $limit)];
+        }
+        return $key;
+    }
+  
+    public function actionRegister()
+    {
+        $model = new FormRegister;
+
+        $msg = null;
+        
+        //Validación mediante ajax
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                $table = new Users;
+                $table->username = $model->username;
+                $table->email = $model->email;
+                $table->password = $this->encrypt_decrypt('encrypt', $model->password);
+                $table->authKey = $this->randKey("abcdef0123456789", 200);
+                $table->accessToken = $this->randKey("abcdef0123456789", 200);
+
+                if ($table->insert()) {
+                    $user = $table->find()->where(["email" => $model->email])->one();
+                    $id = urlencode($user->id);
+                    $authKey = urlencode($user->authKey);
+
+                    $subject = "Confirmar registro";
+                    $body = "<h1>Haga click en el siguiente enlace para finalizar tu registro</h1>";
+                    $body .= "<a href='http://unajforum/index.php?r=site/confirm&id=".$id."&authKey=".$authKey."'>Confirmar</a>";
+                    
+                    //Enviamos el correo
+                    Yii::$app->mailer->compose()
+                        ->setTo($user->email)
+                        ->setFrom([Yii::$app->params["adminEmail"] => Yii::$app->params["title"]])
+                        ->setSubject($subject)
+                        ->setHtmlBody($body)
+                        ->send();
+
+                    $session = Yii::$app->session;
+                    echo "Usuario registrado. Sólo falta que confirme desde su correo electrónico";
+                    $model->username = null;
+                    $model->email = null;
+                    $model->password = null;
+                    $model->password_repeat = null;
+                } else {
+                    $msg = "Ha ocurrido un error al llevar a cabo el registro";
+                }
+            } else {
+                $model->getErrors();
+            }
+        }
+        return $this->render("register", ["model" => $model, "msg" => $msg]);
+    }
+
+
+    public function actionConfirm()
+    {
+        $table = new Users;
+
+        if (Yii::$app->request->get()) {
+            $id = Html::encode($_GET["id"]);
+            $authKey = $_GET["authKey"];
+
+            if ((int)$id) {
+                $model = $table
+                    ->find()
+                    ->where("id=:id", [":id" => $id])
+                    ->andWhere("authKey=:authKey", [":authKey" => $authKey]);
+
+                if ($model->count() == 1) {
+                    $activar = Users::findOne($id);
+                    $activar->activate = 1;
+                    if ($activar->update()) {
+                        echo "Registro realizado correctamente, redireccionando ...";
+                        echo "<meta http-equiv='refresh' content='8; " . Url::toRoute("site/login") . "'>";
+                    } else {
+                        echo "Ha ocurrido un error, redireccionando ...";
+                        echo "<meta http-equiv='refresh' content='8; " . Url::toRoute("site/login") . "'>";
+                    }
+                } else {
+                    return $this->redirect(["site/login"]);
+                }
+            } else {
+                return $this->redirect(["site/login"]);
+            }
+        }
+    }
     /**
      * Displays contact page.
      *

@@ -26,12 +26,21 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => 'pds2018unaj@gmail.com',
+                'password' => 'gestiondeaulas',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

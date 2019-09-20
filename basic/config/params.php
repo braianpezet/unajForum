@@ -1,7 +1,6 @@
 <?php
-
 return [
-    'adminEmail' => 'admin@example.com',
-    'senderEmail' => 'noreply@example.com',
-    'senderName' => 'Example.com mailer',
+    'adminEmail' => 'pds2018unaj@gmail.com',
+    'title' => 'Sistema de Gestión de Aulas',
+    'salt' => 'marck45',
 ];
