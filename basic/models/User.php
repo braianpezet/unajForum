@@ -15,7 +15,6 @@ class User extends \yii\base\baseObject implements \yii\web\IdentityInterface
     public $authKey;
     public $accessToken;
     public $activate;
-    public $idInstituto;
     public $rol;
     public $verification_code;
     public $profile_picture;

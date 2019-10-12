@@ -54,7 +54,7 @@ AppAsset::register($this);
     
         <nav>
             <div id="mySidenav" class="sidenav">
-                <a href="">Inicio</a>
+                <a href="/index.php">Inicio</a>
                 <a href="">Preguntas</a>
                 <a href="">Aportes</a>
                 <a href="">Usuarios</a>
