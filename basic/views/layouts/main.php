@@ -5,6 +5,7 @@
 
 use app\widgets\Alert;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -12,9 +13,13 @@ use app\assets\AppAsset;
 
 AppAsset::register($this);
 ?>
+
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
+
+
 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
@@ -28,6 +33,8 @@ AppAsset::register($this);
     <script src="js/index.js"></script>
     <?php $this->head() ?>
 </head>
+
+
 
 
 <body>
@@ -44,7 +51,15 @@ AppAsset::register($this);
             <a href='/index.php?r=site%2Fabout'>Acerca de</a>
             <a href='/index.php?r=site%2Fcontact'>Contacto</a>
             <?php if (Yii::$app->user->isGuest):?>
-            <a href='index.php?r=site%2Flogin'>Login</a>
+                <a href='index.php?r=site%2Flogin'>Login</a>
+            <?php else:?>
+            <div class="dropdown1">
+                <button class="dropbtn"><?= Html::encode(Yii::$app->user->identity->username)?><i class="fa fa-caret-down" style="margin-left:4px"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">Perfil</a>
+                    <?= Html::a('Salir', Url::to(['site/logout']),  ['data' => ['method' => 'post']]) ?>
+                </div>
+            </div>
             <?php endif ?>
         </div>
     </div>
@@ -73,9 +88,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-left">&copy; Unaj Forum <?= date('Y') ?></p>
     </div>
 </footer>
 

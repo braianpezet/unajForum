@@ -22,9 +22,11 @@ $this->title = 'Unaj Forum';
     display:flex;
     align-items:center;
     margin-left: 20px;
+    color:black;
+    cursor:pointer;
 }
 
-.sub-categoria p{
+.sub-categoria a{
     margin: 0px;
     font-weight: bold;
     margin-left:2px;
@@ -53,6 +55,8 @@ $categoria = Categoria::find()
 
     $subcategoria = Subcategoria::find()->where(['id_categoria' => '2'])->all();
 ?>
+
+<a class="btn btn-success" href="/index.php?r=categoria%2Fcreate" role="button">Crear categoria</a>
 <?php foreach($categoria as $c):?>
     <div class="categoria">
         <h2><?= Html::encode("{$c->nombre} ") ?></h2>
@@ -63,7 +67,7 @@ $categoria = Categoria::find()
                     <div class="logo2">
                         <img src="img/sinCategoria.png">
                     </div>
-                    <p><?= Html::encode("{$sub->nombre} ") ?></p>
+                    <a href="/index.php?r=post%2Fvistav&id=<?= Html::encode("{$sub->id} ") ?>"><?= Html::encode("{$sub->nombre} ") ?></a>
                 </div>
             <?php endforeach?>
         <?php endif?>

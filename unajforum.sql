@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-10-2019 a las 08:00:32
+-- Tiempo de generación: 13-10-2019 a las 01:00:57
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.2.9
 
@@ -42,6 +42,26 @@ INSERT INTO `categoria` (`id`, `nombre`) VALUES
 (2, 'Carreras'),
 (3, 'Ingresantes'),
 (4, 'Off-topic');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `post`
+--
+
+CREATE TABLE `post` (
+  `id` int(11) NOT NULL,
+  `id_subcategoria` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `contenido` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `post`
+--
+
+INSERT INTO `post` (`id`, `id_subcategoria`, `nombre`, `contenido`) VALUES
+(1, 1, 'Primer post', 'Post de prueba');
 
 -- --------------------------------------------------------
 
@@ -102,6 +122,13 @@ ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `post`
+--
+ALTER TABLE `post`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_subcategoria` (`id_subcategoria`);
+
+--
 -- Indices de la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
@@ -119,6 +146,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `post`
+--
+ALTER TABLE `post`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `subcategoria`
 --
 ALTER TABLE `subcategoria`
@@ -133,6 +166,12 @@ ALTER TABLE `users`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `post`
+--
+ALTER TABLE `post`
+  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`id_subcategoria`) REFERENCES `subcategoria` (`id`);
 
 --
 -- Filtros para la tabla `subcategoria`

@@ -13,6 +13,7 @@
 
 
 
+
 .botonSideNav{
     background-color:white;
     height: auto;
@@ -26,9 +27,73 @@
 
 .navDerecha{
     float:right;
-    margin-top:15px;
-
 }
+
+
+.navDerecha .dropdown1{
+    float: right;
+}
+
+.navDerecha a{
+    padding: 15px 16px;
+    display: inline-flex;
+}
+
+.navDerecha .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border:1px solid lightgray;
+  }
+
+ .navDerecha .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .navDerecha a:hover, .dropdown1:hover .dropbtn {
+    color: white;
+    background-color: lightgray;
+
+  }
+  
+
+  .navDerecha .dropdown1:hover .dropdown-content {
+    display: block;
+  }
+
+
+
+  .navDerecha .dropdown1 .dropbtn {
+    border:0px;
+    background: transparent;
+    float: none;
+    color: black;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    display: inline-flex;
+    padding: 15px 16px;
+  }
+
+  .navDerecha .dropdown1 .dropbtn:hover {
+    background-color: lightgray;
+  }
+
+  .navDerecha i{
+    margin-top: 3px;
+  }
+
+
+
+
 
 .logo{
     float:left;
