@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Post;
 use app\models\PostSearch;
+use app\models\ComentarioPost;
+use app\models\Comentario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -81,8 +83,29 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $modelComentario = new ComentarioPost();
+        $modelComentarioDB = new Comentario();
+        if ($_POST != null) {
+            $idUsario =  Yii::$app->user->identity->id;
+            $idPost = $id;
+            $mensaje = $_POST['ComentarioPost'];
+            $comentario = $mensaje['contenido'];;
+            $modelComentarioDB->id_usuario = $idUsario;
+            $modelComentarioDB->id_post = $idPost;
+            $modelComentarioDB->contenido = $comentario;
+            $modelComentarioDB->save();
+        }
+
+        $query = Comentario::find()
+            ->where(['id_post' => $id]);    
+        $comentarios = $query->orderBy('ID')
+            ->all();
+        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'modelComentario' => $modelComentario,
+            'comentarios' => $comentarios,
         ]);
     }
 
