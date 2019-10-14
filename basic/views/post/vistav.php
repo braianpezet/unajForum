@@ -35,8 +35,8 @@ $this->title = 'Post';
 <?php if(count($post) != 0):?>
     <?php foreach($post as $p):?>
         <div class="postBox">
-            <h1><a><?= Html::encode("{$p->nombre} ") ?></a></h1>
-            <p><?= Html::encode("{$p->contenido} ") ?>
+        <h1><a href="http://unajforum/index.php?r=post%2Fview&id=<?= Html::encode("{$p->id} ") ?>"><?= Html::encode("{$p->nombre} ") ?></a></h1>
+            <?= $p->des_corta ?>
         </div>
     <?php endforeach?>
     <?php else:?>

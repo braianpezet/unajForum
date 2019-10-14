@@ -54,9 +54,17 @@ AppAsset::register($this);
                 <a href='index.php?r=site%2Flogin'>Login</a>
             <?php else:?>
             <div class="dropdown1">
-                <button class="dropbtn"><?= Html::encode(Yii::$app->user->identity->username)?><i class="fa fa-caret-down" style="margin-left:4px"></i></button>
+              
+                <button class="dropbtn">  <div class="profilePictur">
+                    <?php if (Yii::$app->user->identity->profile_picture == null):?>
+                        <img src='img/avatar.png'>
+                    <?php else:?>
+                        <img src="<?= Html::encode(Yii::$app->user->identity->profile_picture)?>">
+                    <?php endif?>
+                </div><p class="droptexto"><?= Html::encode(Yii::$app->user->identity->username)?><i class="fa fa-caret-down" style="margin-left:4px"></i></p></button>
                 <div class="dropdown-content">
-                    <a href="#">Perfil</a>
+                    <a href="/index.php?r=user%2Fupdateprofile&id=<?= Html::encode(Yii::$app->user->identity->id)?>" + >Perfil</a>
+                    <a href="/index.php?r=user/changepw">Cambiar contraseña</a>
                     <?= Html::a('Salir', Url::to(['site/logout']),  ['data' => ['method' => 'post']]) ?>
                 </div>
             </div>

@@ -11,6 +11,7 @@ use Yii;
  * @property int $id_subcategoria
  * @property string $nombre
  * @property string $contenido
+ * @property string $des_corta
  *
  * @property Subcategoria $subcategoria
  */
@@ -30,9 +31,9 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_subcategoria', 'nombre', 'contenido'], 'required'],
+            [['id_subcategoria', 'nombre', 'contenido','des_corta'], 'required'],
             [['id_subcategoria'], 'integer'],
-            [['nombre', 'contenido'], 'string', 'max' => 50],
+            [['nombre', 'contenido','des_corta'], 'string', 'max' => 256],
             [['id_subcategoria'], 'exist', 'skipOnError' => true, 'targetClass' => Subcategoria::className(), 'targetAttribute' => ['id_subcategoria' => 'id']],
         ];
     }

@@ -11,29 +11,23 @@ $this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="post-view">
+<style>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+.postContenido img{
+    max-width:100%;
+}
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'id_subcategoria',
-            'nombre',
-            'contenido',
-        ],
-    ]) ?>
-
+.postContenido{
+    min-height:550px;
+    border: 1px solid lightgray;
+    border-radius:10px;
+}
+</style>
+<div class="postContenido col-lg-4 col-md-8 col-sm-12">
+    <h1><?= Html::encode("{$model->nombre} ") ?></h1>
+    <div class="boxPostContentido">
+        <?= $model->contenido?>
+    </div>
 </div>
+
+

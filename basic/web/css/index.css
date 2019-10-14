@@ -35,7 +35,7 @@
 }
 
 .navDerecha a{
-    padding: 15px 16px;
+    padding: 15px 5px;
     display: inline-flex;
 }
 
@@ -80,7 +80,11 @@
     display: block;
     text-align: left;
     display: inline-flex;
-    padding: 15px 16px;
+    height: 50px;
+  }
+
+  .dropbtn p{
+    margin: 0px;
   }
 
   .navDerecha .dropdown1 .dropbtn:hover {
@@ -145,6 +149,24 @@
       float:right;
       width: 100%;
       padding: 20px;
+  }
+
+  .profilePictur{
+    border-radius: 50px;
+    border: 1px solid lightgray;
+    width:40px;
+  }
+
+  .profilePictur img{
+    max-width: 100%;
+    border-radius: 50px;
+  }
+
+  .droptexto{
+    height: 40px;
+    align-items: center;
+    display: inline-flex;
+    margin-left: 4px !important;
   }
 
   @media (min-width: 768px) {
