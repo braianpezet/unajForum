@@ -48,13 +48,11 @@ AppAsset::register($this);
             <img src="img/logo.png" alt="Unaj Forum">
         </div>
         <div class= 'navDerecha'>
-            <a href='/index.php?r=site%2Fabout'>Acerca de</a>
-            <a href='/index.php?r=site%2Fcontact'>Contacto</a>
             <?php if (Yii::$app->user->isGuest):?>
                 <a href='index.php?r=site%2Flogin'>Login</a>
             <?php else:?>
+            <a href="/index.php?r=site%2Fnoti#" style="font-size:20px; padding:13px 5px;"><i class="fa fa-bell" aria-hidden="true"></i></a>
             <div class="dropdown1">
-              
                 <button class="dropbtn">  <div class="profilePictur">
                     <?php if (Yii::$app->user->identity->profile_picture == null):?>
                         <img src='img/avatar.png'>
@@ -78,10 +76,8 @@ AppAsset::register($this);
         <nav>
             <div id="mySidenav" class="sidenav">
                 <a href="/index.php">Inicio</a>
-                <a href="">Preguntas</a>
-                <a href="">Aportes</a>
-                <a href="">Usuarios</a>
-                <a href="">Categorias</a>
+                <a href='/index.php?r=site%2Fabout'>Acerca de</a>
+                <a href='/index.php?r=site%2Fcontact'>Contacto</a>
             </div>
         </nav>
     

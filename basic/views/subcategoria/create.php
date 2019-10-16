@@ -9,9 +9,9 @@ $this->title = 'Create Subcategoria';
 $this->params['breadcrumbs'][] = ['label' => 'Subcategorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="subcategoria-create">
+<div class="subcategoria-create col-lg-4">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>Crear sub-categoria</h1>
 
     <?= $this->render('_form', [
         'model' => $model,

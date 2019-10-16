@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Categoria;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Subcategoria */
@@ -10,13 +12,22 @@ use yii\widgets\ActiveForm;
 
 <div class="subcategoria-form">
 
+    
+
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_categoria')->textInput() ?>
+    <?php $categorias = categoria::find()->asArray()->all();
+    $result = ArrayHelper::map($categorias, 'id', 'nombre'); 
+    ?>
+    
 
-    <?= $form->field($model, 'contenido')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'id_categoria')->dropDownList(
+        $result,
+        ['prompt' => 'Choose...']
+    )->label('Selecciona categoria'); ?>
 
-    <?= $form->field($model, 'dec_contenido')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

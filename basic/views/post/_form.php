@@ -13,22 +13,17 @@ use dosamigos\ckeditor\CKEditor;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id')->textInput() ?>
-
-    <?= $form->field($model, 'id_subcategoria')->textInput() ?>
-
-    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true])->label('titulo') ?>
 
     <?= $form->field($model, 'des_corta')->textInput()->label('Descripcion corta') ?>
 
-    
     <?= $form->field($model, 'contenido')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
         'preset' => 'advanced'
     ]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Crear post', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

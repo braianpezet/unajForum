@@ -9,9 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property int $id_categoria
- * @property string $contenido
- * @property string $dec_contenido
+ * @property string $nombre
  *
+ * @property Post[] $posts
  * @property Categoria $categoria
  */
 class Subcategoria extends \yii\db\ActiveRecord
@@ -30,10 +30,9 @@ class Subcategoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_categoria', 'contenido', 'dec_contenido'], 'required'],
+            [['id_categoria', 'nombre'], 'required'],
             [['id_categoria'], 'integer'],
-            [['contenido'], 'string', 'max' => 250],
-            [['dec_contenido'], 'string', 'max' => 50],
+            [['nombre'], 'string', 'max' => 50],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['id_categoria' => 'id']],
         ];
     }
@@ -46,9 +45,16 @@ class Subcategoria extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_categoria' => 'Id Categoria',
-            'contenido' => 'Contenido',
-            'dec_contenido' => 'Dec Contenido',
+            'nombre' => 'Nombre',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPosts()
+    {
+        return $this->hasMany(Post::className(), ['id_subcategoria' => 'id']);
     }
 
     /**

@@ -53,6 +53,7 @@ class PostController extends Controller
         return $this->render('vistav', [
             'post' => $post,
             'pagination' => $pagination,
+            'id' => $id,
         ]);
 
 
@@ -96,7 +97,8 @@ class PostController extends Controller
             $modelComentarioDB->contenido = $comentario;
             $modelComentarioDB->save();
         }
-
+        $model->visitas = $model->visitas +1;
+        $model->save(); 
         $query = Comentario::find()
             ->where(['id_post' => $id]);    
         $comentarios = $query->orderBy('ID')
@@ -114,9 +116,10 @@ class PostController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Post();
+        $model->id_subcategoria= $id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

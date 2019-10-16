@@ -1,7 +1,9 @@
 <?php
 use app\models\Categoria;
 use app\models\subcategoria;
+use app\models\post;
 use yii\helpers\Html;
+use yii\data\Pagination;
 
 /* @var $this yii\web\View */
 
@@ -44,6 +46,13 @@ $this->title = 'Unaj Forum';
     max-height:100%;
 }
 
+.masPopulares{
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin-top: 50px;
+    padding: 15px;
+
+}
 
 </style>
 
@@ -55,8 +64,10 @@ $categoria = Categoria::find()
 
     $subcategoria = Subcategoria::find()->where(['id_categoria' => '2'])->all();
 ?>
-
+<div class=row>
+    <div class="col-lg-8 col-md-8 col-sm-12">
 <a class="btn btn-success" href="/index.php?r=categoria%2Fcreate" role="button">Crear categoria</a>
+<a class="btn btn-success" href="/index.php?r=subcategoria%2Fcreate" role="button">Crear sub-categoria</a>
 <?php foreach($categoria as $c):?>
     <div class="categoria">
         <h2><?= Html::encode("{$c->nombre} ") ?></h2>
@@ -74,3 +85,27 @@ $categoria = Categoria::find()
     </div>
     
 <?php endforeach ?>
+    </div>
+    <div class="aside col-lg-2 col-md-4">
+
+    <div class="masPopulares">
+        <h3>Preguntas mas populares</h3>
+        <?php 
+        $query = Post::find()->orderBy('visitas')->all();
+        $query2 = Post::find()->orderBy(['fecha' => SORT_DESC])->all();
+        ?>
+        <?php for ($i = 0; $i <= 4; $i++):?>
+            <a style="display:block" href="/index.php?r=post%2Fview&id=<?=$query[$i]->id?>"><?= Html::encode($query[$i]->nombre) ?></a>
+        <?php endfor?>
+    </div>
+    <div class="etiquetasPopulares masPopulares">
+        <h3>Etiquetas mas pupulares</h3>
+    </div>
+    <div class="Preguntas recientes masPopulares">
+        <h3> Ultimas preguntas </h3>
+        <?php for ($i = 0; $i <= 4; $i++):?>
+            <a style="display:block" href="/index.php?r=post%2Fview&id=<?=$query2[$i]->id?>"><?= Html::encode($query2[$i]->nombre) ?></a>
+        <?php endfor?>
+    </div>
+    </div>
+</div>

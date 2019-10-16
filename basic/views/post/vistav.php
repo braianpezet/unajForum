@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\data\Pagination;
 use yii\widgets\LinkPager;
+use app\models\Subcategoria;
 
 
 $this->title = 'Post';
@@ -29,8 +30,9 @@ $this->title = 'Post';
 
 </style>
 
+<?php $idSubCategoria = Subcategoria::findOne($id); ?>
 
-<a class="btn btn-success" href="/index.php?r=post%2Fcreate" role="button">Crear post</a>
+<a class="btn btn-success" href="/index.php?r=post%2Fcreate&id=<?= Html::encode("{$idSubCategoria->id} ") ?>" role="button">Crear post</a>
 
 <?php if(count($post) != 0):?>
     <?php foreach($post as $p):?>

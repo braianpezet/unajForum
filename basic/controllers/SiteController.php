@@ -14,6 +14,9 @@ use app\models\FormRegister;
 use app\models\Users;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\Notificacion;
+use app\models\NotificacionSearch;
+use yii\data\Pagination;
 
 
 class SiteController extends Controller
@@ -230,6 +233,72 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionNoti()
+    {
+        $query = Notificacion::find()
+            ->where(['ID_USER_EMISOR' => Yii::$app->user->identity->id])
+            ->orwhere(['ID_USER_RECEPTOR' => Yii::$app->user->identity->id]);
+
+       
+
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $query->count(),
+        ]);
+
+        $notificacion = $query->orderBy(['Fecha' => SORT_DESC])
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        if ($_POST != null) {
+                $ID_Usuarios = $_POST['Notificacion'];
+                $mensaje = $_POST['Notificacion'];
+                $ID_Usuarios = $ID_Usuarios['ID_USER_RECEPTOR'];
+                $mensaje = $mensaje['NOTIFICACION'];
+                foreach ($ID_Usuarios as $user1) {
+                    $model1 = new Notificacion();
+                    $model1->ID_USER_EMISOR = Yii::$app->user->identity->id;
+                    $model1->ID_USER_RECEPTOR = $user1;
+                    $model1->NOTIFICACION = $this->encrypt_decrypt('encrypt', $mensaje);
+                    $model1->FECHA = new \yii\db\Expression('NOW()');
+                    $model1->save();
+                        //Enviamos correo
+                     $receptor = Users::findOne($user1)->username;
+                     $emisor = Users::findOne($model1->ID_USER_EMISOR)->username;
+                     $mail = Users::findOne($user1)->email;
+                     $subject = "Nueva notificación";
+                     $body = "<p>Hola <strong>" . $receptor . "</strong>, tenes una nueva notificación de <strong>" . $emisor . "</strong>.</p>";
+                     $body .= "<p> Notificación: <i>" . $mensaje . "</i></p>";
+                     $body .= "<p><a href='http://yii.local/site/noti'>Ver notificación</a></p>";
+                     try {
+                         Yii::$app->mailer->compose()
+                             ->setTo($mail)
+                             ->setFrom([Yii::$app->params["adminEmail"] => Yii::$app->params["title"]])
+                             ->setSubject($subject)
+                             ->setHtmlBody($body)
+                             ->send();
+                     } catch (\Swift_TransportException $e) {
+                     }
+                }
+                if ($model1->save()) {
+                    $session = Yii::$app->session;
+                    return $this->redirect('noti');
+                }
+            }
+        
+
+        $model = new Notificacion();
+        $usuarios = Users::find()->where(['not', ['username' => Yii::$app->user->identity->username]])
+            ->andWhere(['activate' => 1])->asArray()->all();
+        return $this->render('noti', [
+            'notificacion' => $notificacion,
+            'pagination' => $pagination,
+            'model' => $model,
+            'usuarios' => $usuarios,
+        ]);
     }
 
     public function encrypt_decrypt($action, $string)
