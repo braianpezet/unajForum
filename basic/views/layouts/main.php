@@ -27,7 +27,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/10e4cfba33.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/index.js"></script>
@@ -61,7 +61,8 @@ AppAsset::register($this);
                     <?php endif?>
                 </div><p class="droptexto"><?= Html::encode(Yii::$app->user->identity->username)?><i class="fa fa-caret-down" style="margin-left:4px"></i></p></button>
                 <div class="dropdown-content">
-                    <a href="/index.php?r=user%2Fupdateprofile&id=<?= Html::encode(Yii::$app->user->identity->id)?>" + >Perfil</a>
+                    <a href="/index.php?r=user%2Fview&id=<?= Html::encode(Yii::$app->user->identity->id)?>">Perfil</a> 
+                    <a href="/index.php?r=user%2Fupdateprofile&id=<?= Html::encode(Yii::$app->user->identity->id)?>" + >Modificar perfil</a>
                     <a href="/index.php?r=user/changepw">Cambiar contraseña</a>
                     <?= Html::a('Salir', Url::to(['site/logout']),  ['data' => ['method' => 'post']]) ?>
                 </div>
@@ -72,7 +73,6 @@ AppAsset::register($this);
 </header>
 
 <div class="wrap">
-    
         <nav>
             <div id="mySidenav" class="sidenav">
                 <a href="/index.php">Inicio</a>

@@ -97,8 +97,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </style>
 
-<div class="col-lg-4 col-md-8 col-sm-12">
+
+<div style="float:none" class="col-lg-4 col-md-8 col-sm-12 float-none">
+
 <div class="postContenido">
+<a class="btn btn-success" href="/index.php?r=post%2Fupdate&id=<?=$model->id?>" role="button">Modificar Post</a>
     <h1><?= Html::encode("{$model->nombre} ") ?></h1>
     <div class="boxPostContentido">
         <?= $model->contenido?>

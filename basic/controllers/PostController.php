@@ -7,10 +7,13 @@ use app\models\Post;
 use app\models\PostSearch;
 use app\models\ComentarioPost;
 use app\models\Comentario;
+use app\models\FormPostFoto;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\Pagination;
+use yii\web\UploadedFile;
+use yii\base\Security;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -118,15 +121,28 @@ class PostController extends Controller
      */
     public function actionCreate($id)
     {
+        $modelPicture = new FormPostFoto();
         $model = new Post();
         $model->id_subcategoria= $id;
-
+        $idusuario = Yii::$app->user->identity->id;
+        $security = new Security();
+        $imageName = $security->generateRandomString();
+        $modelPicture->file = UploadedFile::getInstance($modelPicture,'file');
+        if ($modelPicture->file !=null){
+            $modelPicture->file->saveAs('uploads/'.$imageName.'.'.$modelPicture->file->extension);
+            $model->post_picture = '../uploads/'.$imageName.'.'.$modelPicture->file->extension; /*guardo ruta en db*/
+            }
+        if($_POST != null){
+            $model->id_usuario = $idusuario;
+            $model->save();
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'modelPicture' => $modelPicture,
         ]);
     }
 
@@ -140,6 +156,16 @@ class PostController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelPicture = new FormPostFoto();
+        $security = new Security();
+        $imageName = $security->generateRandomString();
+        $modelPicture->file = UploadedFile::getInstance($modelPicture,'file');
+        if ($modelPicture->file !=null){
+            $modelPicture->file->saveAs('uploads/'.$imageName.'.'.$modelPicture->file->extension);
+            $model->post_picture = '../uploads/'.$imageName.'.'.$modelPicture->file->extension; /*guardo ruta en db*/
+            $model->save();
+            }
+        
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -147,6 +173,7 @@ class PostController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelPicture' => $modelPicture,
         ]);
     }
 

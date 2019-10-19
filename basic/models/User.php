@@ -18,6 +18,8 @@ class User extends \yii\base\baseObject implements \yii\web\IdentityInterface
     public $rol;
     public $verification_code;
     public $profile_picture;
+    public $fecha_de_nacimiento;
+    public $extracto;
 
 
     /**

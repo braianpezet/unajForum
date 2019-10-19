@@ -1,6 +1,9 @@
 html,
 body {
-    height: 100% !important;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /*background-color:ghostwhite;*/
 }
 
 * {
@@ -10,9 +13,7 @@ body {
 
 .wrap {
     min-height: 100%;
-    height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
+    position: relative;
 }
 
 .wrap > .container {

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -13,6 +14,8 @@ use dosamigos\ckeditor\CKEditor;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    
+
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true])->label('titulo') ?>
 
     <?= $form->field($model, 'des_corta')->textInput()->label('Descripcion corta') ?>
@@ -21,6 +24,11 @@ use dosamigos\ckeditor\CKEditor;
         'options' => ['rows' => 6],
         'preset' => 'advanced'
     ]) ?>
+
+    <div class = "box1">
+        <?= $form->field($modelPicture, "file")->fileInput()->label("Subir foto de portada:") ?>
+    </div>
+    
 
     <div class="form-group">
         <?= Html::submitButton('Crear post', ['class' => 'btn btn-success']) ?>

@@ -146,8 +146,6 @@
   }
 
   .contenido{
-      float:right;
-      width: 100%;
       padding: 20px;
   }
 
@@ -171,7 +169,6 @@
 
   @media (min-width: 768px) {
       .sidenav{
-        height: calc(100% - 60px);
         width:250px;
         position: absolute;
         top: auto;
@@ -185,7 +182,7 @@
 
       }
       .contenido{
-        width: calc(100% - 250px);
+        margin-left:250px;
       }
 
       .botonSideNav{

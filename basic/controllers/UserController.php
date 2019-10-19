@@ -42,6 +42,13 @@ class UserController extends Controller
         return "false";
     }
 
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
     public function actionChangepw()
     {
 
@@ -107,6 +114,10 @@ class UserController extends Controller
             $user = $_POST['Users'];
             $username = $user['username'];
             $email = $user['email'];
+            $fecha = $user['fecha_de_nacimiento'];
+            $extracto = $user['extracto'];
+            $model->fecha_de_nacimiento = $fecha;
+            $model->extracto = $extracto;
             $model->username = $username;
             $model->email = $email;
             $model->save();

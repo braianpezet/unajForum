@@ -4,15 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Instituto;
+use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Aula */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <style>
-
-
-
 
 </style>
 <div class="user-form">
@@ -32,6 +30,15 @@ use app\models\Instituto;
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email')->textInput() ?>
+
+    <?= $form->field($model, 'extracto')->textInput()->label('Acerca de vos') ?>
+
+    <?= $form->field($model, 'fecha_de_nacimiento')->widget(
+    DatePicker::className(), [
+        'clientOptions' => [
+            'format' => 'yyyy-M-dd'
+        ]
+]);?>
 
   
     <div class="form-group">

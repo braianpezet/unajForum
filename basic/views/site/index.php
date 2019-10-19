@@ -51,6 +51,7 @@ $this->title = 'Unaj Forum';
     border-radius: 10px;
     margin-top: 50px;
     padding: 15px;
+    background-color:white;
 
 }
 
