@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use app\models\Users;
+use app\models\Archivos;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -94,6 +95,17 @@ $this->params['breadcrumbs'][] = $this->title;
     color:red;
 }
 
+.archivosAdjuntos{
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.archivosAdjuntos-header{
+    border-bottom: 1px solid lightGray;
+    padding: 2px 2px;
+}
+
 
 </style>
 
@@ -102,11 +114,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="postContenido">
 <a class="btn btn-success" href="/index.php?r=post%2Fupdate&id=<?=$model->id?>" role="button">Modificar Post</a>
+<a class="btn btn-success" href="/index.php?r=archivos%2Fcreate&id=<?=$model->id?>">Agregar archivos adjuntos</a>
     <h1><?= Html::encode("{$model->nombre} ") ?></h1>
     <div class="boxPostContentido">
         <?= $model->contenido?>
     </div>
 </div>
+
+<?php $archivos = Archivos::find()->where(['id_post' => $model->id])->all();?>
+<?php if($archivos !=null):?>
+<div class="archivosAdjuntos">
+    <?php foreach($archivos as $a):?>
+        <a href="<?= $a->url?>" download><?=$a->url?></a>
+        <?php endforeach?>
+</div>
+<?php endif?>
+
 
 
 <div class="post-comentario" style="clear:both; margin-top: 10px">

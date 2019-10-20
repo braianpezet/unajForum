@@ -14,13 +14,8 @@ use kartik\file\FileInput;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_post')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
-
     <?= $form->field($model, 'file')->widget(FileInput::classname(), [
+        'language' => 'es',
         'options' => [
             'multiple' => true,
             'accept' => 'image/*'
