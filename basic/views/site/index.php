@@ -87,7 +87,7 @@ $categoria = Categoria::find()
     
 <?php endforeach ?>
     </div>
-    <div class="aside col-lg-2 col-md-4">
+    <div class="aside col-xl-2 col-lg-3 col-md-4 col-sm-12 col-12">
 
     <div class="masPopulares">
         <h3>Preguntas mas populares</h3>

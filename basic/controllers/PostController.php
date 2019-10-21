@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Post;
+use app\models\Etiqueta;
+use app\models\Etiqueta_post;
 use app\models\PostSearch;
 use app\models\ComentarioPost;
 use app\models\Comentario;
@@ -121,6 +123,8 @@ class PostController extends Controller
      */
     public function actionCreate($id)
     {
+        $etiquetas  = Etiqueta::find()->asArray()->all();
+        $modelEtiqueta = new Etiqueta();
         $modelPicture = new FormPostFoto();
         $model = new Post();
         $model->id_subcategoria= $id;
@@ -134,15 +138,48 @@ class PostController extends Controller
             }
         if($_POST != null){
             $model->id_usuario = $idusuario;
+            $post = $_POST['Post'];
+            $descCorta = $post['des_corta'];
+            $contenido = $post['contenido'];
+            $nombre = $post['nombre'];
+            $model->nombre = $nombre;
+            $model->des_corta = $descCorta;
+            $model->contenido = $contenido;
             $model->save();
+            $datos = $_POST['Etiqueta'];
+            $datos = $datos['id'];
+            foreach ($datos as $d){
+                $aux = Etiqueta::find()->where(['id' => $d])->one();
+                if($aux == null){
+                    $modelEtiquetaPost = new Etiqueta_post();
+                    $modelEtiquetaAux = new Etiqueta();
+                    $modelEtiquetaAux->nombre = $d;
+                    $modelEtiquetaAux->save();
+                    $modelEtiquetaPost->id_post = $model->id;
+                    $modelEtiquetaPost->id_etiqueta = $modelEtiquetaAux->id;
+                    $modelEtiquetaPost->save();
+                }
+                else{
+                    $modelEtiquetaPost = new Etiqueta_post();
+                    $modelEtiquetaPost->id_post = $model->id;
+                    $modelEtiquetaPost->id_etiqueta = $aux->id;
+                    $modelEtiquetaPost->save();
+                }
+            }
         }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+        
+       
+       
 
         return $this->render('create', [
             'model' => $model,
             'modelPicture' => $modelPicture,
+            'modelEtiqueta' => $modelEtiqueta,
+            'etiquetas' => $etiquetas,
         ]);
     }
 
