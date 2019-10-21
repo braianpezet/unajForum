@@ -21,7 +21,8 @@
         "2amigos/yii2-ckeditor-widget": "^1.0@dev",
         "kartik-v/yii2-widget-select2": "^2.1@dev",
         "2amigos/yii2-date-picker-widget": "~1.0",
-        "kartik-v/yii2-widget-fileinput": "^1.0@dev"
+        "kartik-v/yii2-widget-fileinput": "^1.0@dev",
+        "demogorgorn/yii2-ajax-submit-button": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

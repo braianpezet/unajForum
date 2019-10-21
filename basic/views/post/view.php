@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use app\models\Users;
 use app\models\Archivos;
+use demogorgorn\ajax\AjaxSubmitButton;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -119,6 +120,42 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="boxPostContentido">
         <?= $model->contenido?>
     </div>
+    <div class="panelVotacion">
+        <a id="like" class="btn btn-success">Me gusta</a><p id="likeContador"><?=$model->megusta?></p>
+        <a id="dislike" class="btn btn-success">No me gusta</a><p id="dislikeContador"><?=$model->dislike?></p>
+    </div>
+    <script>
+       $('#like').on("click", () => {
+            $.ajax({
+            url: $(location).attr('pathname') + '?r=post/like',
+            type: 'post',
+            data: {
+                 meGusta: 1 , 
+                 id: <?php echo $model->id ?> , 
+                 _csrf : '<?=Yii::$app->request->getCsrfToken()?>'
+             },
+                success: function (data) {
+                    $('#likeContador').html(data.search); 
+                    console.log(data.search);
+                }
+            });
+       });
+       $('#dislike').on("click", () => {
+            $.ajax({
+            url: $(location).attr('pathname') + '?r=post/nolike',
+            type: 'post',
+            data: {
+                 meGusta: 1 , 
+                 id: <?php echo $model->id ?> , 
+                 _csrf : '<?=Yii::$app->request->getCsrfToken()?>'
+             },
+                success: function (data) {
+                    $('#dislikeContador').html(data.search); 
+                    console.log(data.search);
+                }
+            });
+       });
+    </script>
 </div>
 
 <?php $archivos = Archivos::find()->where(['id_post' => $model->id])->all();?>
@@ -136,8 +173,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php Pjax::begin(); ?>
 
-    <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ]]); ?>
 
+
+    <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ]]); ?>
     <div class="cantidad-comentarios">
         <h3> <?= count($comentarios)?> Comentarios </h3>
     </div>

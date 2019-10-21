@@ -108,13 +108,50 @@ class PostController extends Controller
             ->where(['id_post' => $id]);    
         $comentarios = $query->orderBy('ID')
             ->all();
-        
+    
         return $this->render('view', [
             'model' => $model,
             'modelComentario' => $modelComentario,
             'comentarios' => $comentarios,
         ]);
     }
+
+    public function actionLike()
+    {
+        if (Yii::$app->request->isAjax) {
+            $data = Yii::$app->request->post();
+            $id = $data['id'];
+            $post = $this->findModel($id);
+            $post->megusta = $post->megusta + 1;
+            $post->save(false);
+            $search = $post->megusta;
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+                'search' => $search,
+                'code' => 100,
+            ];
+        }
+    }
+
+    
+    public function actionNolike()
+    {
+        if (Yii::$app->request->isAjax) {
+            $data = Yii::$app->request->post();
+            $id = $data['id'];
+            $post = $this->findModel($id);
+            $post->dislike = $post->dislike + 1;
+            $post->save(false);
+            $search = $post->dislike;
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+                'search' => $search,
+                'code' => 100,
+            ];
+        }
+    }
+
+
 
     /**
      * Creates a new Post model.

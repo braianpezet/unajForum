@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82a2504fddd8a3e50979273c223240ba",
+    "content-hash": "dfb78ff34c3cc0a2d3b1a3588b43a7b0",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -349,6 +349,51 @@
                 "wysiwyg"
             ],
             "time": "2019-09-26T11:04:37+00:00"
+        },
+        {
+            "name": "demogorgorn/yii2-ajax-submit-button",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/demogorgorn/yii2-ajax-submit-button.git",
+                "reference": "c4538fefaa7502cb1420242e178253a527eacdb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/demogorgorn/yii2-ajax-submit-button/zipball/c4538fefaa7502cb1420242e178253a527eacdb9",
+                "reference": "c4538fefaa7502cb1420242e178253a527eacdb9",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "demogorgorn\\ajax\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oleg Martemjanov",
+                    "email": "demogorgorn@gmail.com",
+                    "homepage": "http://foreign.by"
+                }
+            ],
+            "description": "AjaxSubmitButton renders an ajax button which is very similar to ajaxSubmitButton from Yii1.",
+            "homepage": "https://github.com/demogorgorn/yii2-ajax-submit-button",
+            "keywords": [
+                "ajax",
+                "button",
+                "extension",
+                "submit",
+                "widget"
+            ],
+            "time": "2019-03-26T13:34:15+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -4296,7 +4341,8 @@
     "stability-flags": {
         "2amigos/yii2-ckeditor-widget": 20,
         "kartik-v/yii2-widget-select2": 20,
-        "kartik-v/yii2-widget-fileinput": 20
+        "kartik-v/yii2-widget-fileinput": 20,
+        "demogorgorn/yii2-ajax-submit-button": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
