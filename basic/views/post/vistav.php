@@ -76,7 +76,7 @@ $this->title = 'Post';
             <?php endif?>
             </div>
             <div class="post-titulo-des">
-                <h1><a href="http://unajforum/index.php?r=post%2Fview&id=<?= Html::encode("{$p->id} ") ?>"><?= Html::encode("{$p->nombre} ") ?></a></h1>
+                <h1><a href="/index.php?r=post%2Fview&id=<?= Html::encode("{$p->id} ") ?>"><?= Html::encode("{$p->nombre} ") ?></a></h1>
                 <p><?= $p->des_corta ?></p>
                 <div class="post-stats">
             

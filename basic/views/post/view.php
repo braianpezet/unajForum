@@ -107,11 +107,18 @@ $this->params['breadcrumbs'][] = $this->title;
     padding: 2px 2px;
 }
 
+.panelVotacion{
+    display: flex;
+}
+
+.panelVotacion p{
+    margin: 5px 0px;
+}
 
 </style>
 
 
-<div style="float:none" class="col-lg-4 col-md-8 col-sm-12 float-none">
+<div style="float:none" class="col-lg-6 col-md-8 col-sm-12 float-none">
 
 <div class="postContenido">
 <a class="btn btn-success" href="/index.php?r=post%2Fupdate&id=<?=$model->id?>" role="button">Modificar Post</a>
@@ -121,8 +128,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $model->contenido?>
     </div>
     <div class="panelVotacion">
-        <a id="like" class="btn btn-success">Me gusta</a><p id="likeContador"><?=$model->megusta?></p>
-        <a id="dislike" class="btn btn-success">No me gusta</a><p id="dislikeContador"><?=$model->dislike?></p>
+        <a id="like" class="btn"><i class="fa fa-thumbs-up"></i></a>
+        <p id="likeContador" style='color:green'>++<?=$model->megusta?></p>
+        <a id="dislike" class="btn"><i class="fa fa-thumbs-down"></i></a>
+        <p id="dislikeContador" style='color:red'>--<?=$model->dislike?></p>
     </div>
     <script>
        $('#like').on("click", () => {
@@ -135,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  _csrf : '<?=Yii::$app->request->getCsrfToken()?>'
              },
                 success: function (data) {
-                    $('#likeContador').html(data.search); 
+                    $('#likeContador').html('++' + data.search); 
                     console.log(data.search);
                 }
             });
@@ -150,7 +159,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  _csrf : '<?=Yii::$app->request->getCsrfToken()?>'
              },
                 success: function (data) {
-                    $('#dislikeContador').html(data.search); 
+                    $('#dislikeContador').html('--' + data.search); 
                     console.log(data.search);
                 }
             });

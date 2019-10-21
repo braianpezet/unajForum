@@ -1,7 +1,7 @@
 <?php
 use app\models\Categoria;
-use app\models\subcategoria;
-use app\models\post;
+use app\models\Subcategoria;
+use app\models\Post;
 use yii\helpers\Html;
 use yii\data\Pagination;
 
