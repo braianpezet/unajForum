@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use app\models\Post;
+use app\models\User;
 use app\models\Etiqueta;
 use app\models\Etiqueta_post;
 use app\models\PostSearch;
@@ -22,12 +24,46 @@ use yii\base\Security;
  */
 class PostController extends Controller
 {
+   
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'delete', 'update','index'],
+                'rules' => [
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['create','delete','update','index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                       //Los usuarios simples tienen permisos sobre las siguientes acciones
+                        'actions' => ['create','update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserSimple(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                        //Los usuarios guest tienen permisos sobre las siguientes acciones
+                        'actions' => [],
+                        'allow' => false,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserGuest(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -151,7 +187,23 @@ class PostController extends Controller
         }
     }
 
-
+    public function actionLikecomentario()
+    {
+        echo 'hola';
+        if (Yii::$app->request->isAjax) {
+            $data = Yii::$app->request->post();
+            $id = $data['id'];
+            $comentario = new Comentario();
+            $comentario->megusta = $post->megusta + 1;
+            $post->save(false);
+            $search = $post->megusta;
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+                'search' => $search,
+                'code' => 100,
+            ];
+        }
+    }
 
     /**
      * Creates a new Post model.
@@ -229,6 +281,8 @@ class PostController extends Controller
      */
     public function actionUpdate($id)
     {
+        $etiquetas  = Etiqueta::find()->asArray()->all();
+        $modelEtiqueta = new Etiqueta();
         $model = $this->findModel($id);
         $modelPicture = new FormPostFoto();
         $security = new Security();
@@ -239,6 +293,37 @@ class PostController extends Controller
             $model->post_picture = '../uploads/'.$imageName.'.'.$modelPicture->file->extension; /*guardo ruta en db*/
             $model->save();
             }
+            if($_POST != null){
+                $post = $_POST['Post'];
+                $descCorta = $post['des_corta'];
+                $contenido = $post['contenido'];
+                $nombre = $post['nombre'];
+                $model->nombre = $nombre;
+                $model->des_corta = $descCorta;
+                $model->contenido = $contenido;
+                $model->save();
+                $datos = $_POST['Etiqueta'];
+                $datos = $datos['id'];
+                foreach ($datos as $d){
+                    $aux = Etiqueta::find()->where(['id' => $d])->one();
+                    if($aux == null){
+                        $modelEtiquetaPost = new Etiqueta_post();
+                        $modelEtiquetaAux = new Etiqueta();
+                        $modelEtiquetaAux->nombre = $d;
+                        $modelEtiquetaAux->save();
+                        $modelEtiquetaPost->id_post = $model->id;
+                        $modelEtiquetaPost->id_etiqueta = $modelEtiquetaAux->id;
+                        $modelEtiquetaPost->save();
+                    }
+                    else{
+                        $modelEtiquetaPost = new Etiqueta_post();
+                        $modelEtiquetaPost->id_post = $model->id;
+                        $modelEtiquetaPost->id_etiqueta = $aux->id;
+                        $modelEtiquetaPost->save();
+                    }
+                }
+            }
+    
         
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -247,7 +332,9 @@ class PostController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'etiquetas' => $etiquetas,
             'modelPicture' => $modelPicture,
+            'modelEtiqueta' => $modelEtiqueta,
         ]);
     }
 

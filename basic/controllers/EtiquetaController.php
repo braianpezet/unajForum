@@ -8,18 +8,53 @@ use app\models\EtiquetaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\models\User;
 
 /**
  * EtiquetaController implements the CRUD actions for Etiqueta model.
  */
 class EtiquetaController extends Controller
 {
-    /**
-     * {@inheritdoc}
+       /**
+     * @inheritdoc
      */
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'delete', 'update','index','view'],
+                'rules' => [
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['create','delete','update','index','view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                       //Los usuarios simples tienen permisos sobre las siguientes acciones
+                        'actions' => ['create','update','view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserSimple(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                        //Los usuarios guest tienen permisos sobre las siguientes acciones
+                        'actions' => [''],
+                        'allow' => false,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserGuest(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -29,8 +64,9 @@ class EtiquetaController extends Controller
         ];
     }
 
+
     /**
-     * Lists all Etiqueta models.
+     * Lists all Notificacion models.
      * @return mixed
      */
     public function actionIndex()

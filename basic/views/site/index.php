@@ -2,6 +2,8 @@
 use app\models\Categoria;
 use app\models\Subcategoria;
 use app\models\Post;
+use app\models\User;
+use app\models\Etiqueta;
 use yii\helpers\Html;
 use yii\data\Pagination;
 
@@ -67,8 +69,12 @@ $categoria = Categoria::find()
 ?>
 <div class=row>
     <div class="col-lg-8 col-md-8 col-sm-12">
+<?php if (!Yii::$app->user->isGuest):?>
+<?php if (User::isUserAdmin(Yii::$app->user->identity->id)):?>
 <a class="btn btn-success" href="/index.php?r=categoria%2Fcreate" role="button">Crear categoria</a>
 <a class="btn btn-success" href="/index.php?r=subcategoria%2Fcreate" role="button">Crear sub-categoria</a>
+<?php endif?>
+<?php endif?>
 <?php foreach($categoria as $c):?>
     <div class="categoria">
         <h2><?= Html::encode("{$c->nombre} ") ?></h2>
@@ -95,16 +101,24 @@ $categoria = Categoria::find()
         $query = Post::find()->orderBy('visitas')->all();
         $query2 = Post::find()->orderBy(['fecha' => SORT_DESC])->all();
         ?>
-        <?php for ($i = 0; $i <= 4; $i++):?>
+        <?php for ($i = 0; $i <= 2; $i++):?>
             <a style="display:block" href="/index.php?r=post%2Fview&id=<?=$query[$i]->id?>"><?= Html::encode($query[$i]->nombre) ?></a>
         <?php endfor?>
     </div>
     <div class="etiquetasPopulares masPopulares">
         <h3>Etiquetas mas pupulares</h3>
+        <?php $etiquetas = Etiqueta::find()->all();?>
+        <?php foreach($etiquetas as $etiqueta):?>
+        <div class="etiqueta">
+            <a href="/index.php?r=etiqueta%2Fview&id=<?=$etiqueta->id?>">
+                <?= $etiqueta->nombre?>
+            </a>
+        </div>
+        <?php endforeach?>
     </div>
     <div class="Preguntas recientes masPopulares">
         <h3> Ultimas preguntas </h3>
-        <?php for ($i = 0; $i <= 4; $i++):?>
+        <?php for ($i = 0; $i <= 2; $i++):?>
             <a style="display:block" href="/index.php?r=post%2Fview&id=<?=$query2[$i]->id?>"><?= Html::encode($query2[$i]->nombre) ?></a>
         <?php endfor?>
     </div>

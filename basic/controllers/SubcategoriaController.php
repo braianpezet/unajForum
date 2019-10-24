@@ -8,18 +8,50 @@ use app\models\SubcategoriaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\models\User;
 
 /**
  * SubcategoriaController implements the CRUD actions for Subcategoria model.
  */
 class SubcategoriaController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'delete', 'update','index','view'],
+                'rules' => [
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['create','delete','update','index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                       //Los usuarios simples tienen permisos sobre las siguientes acciones
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserSimple(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                        //Los usuarios guest tienen permisos sobre las siguientes acciones
+                        'actions' => ['view'],
+                        'allow' => false,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserGuest(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -28,6 +60,7 @@ class SubcategoriaController extends Controller
             ],
         ];
     }
+
 
     /**
      * Lists all Subcategoria models.

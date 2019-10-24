@@ -48,16 +48,6 @@ class User extends \yii\base\baseObject implements \yii\web\IdentityInterface
        return false;
        }
     }
-    public static function isUserGuest($id)
-    {
-       if (Users::findOne(['id' => $id, 'activate' => '1', 'rol' => 30])){
-           return true;
-       } 
-       else {
-           return false;
-       }
-    }
-
     public static function findIdentity($id)
     {
         

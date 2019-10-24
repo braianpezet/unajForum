@@ -6,7 +6,8 @@ use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use app\models\Users;
 use app\models\Archivos;
-use demogorgorn\ajax\AjaxSubmitButton;
+use app\models\Etiqueta_post;
+use app\models\Etiqueta;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -115,14 +116,46 @@ $this->params['breadcrumbs'][] = $this->title;
     margin: 5px 0px;
 }
 
+.archivosAdjuntos{
+    display: inline-flex;
+    min-height: 50px;
+    justify-content: center;
+    justify-self:center;
+    justify-self: center;
+}
+
+.archivosAdjuntosHeader{
+    padding: 15px;
+    border-right: 1px solid lightgray;
+}
+
+.archivosAdjuntosContenido{
+    display: flex;
+    flex-direction: column;
+    padding:5px;
+}
+
+.contentt{
+    display:flex;
+}
+
+.no-registrado{
+    display:grid;
+    justify-self:center;
+    margin: 0 auto;
+}
+
+
 </style>
 
 
 <div style="float:none" class="col-lg-6 col-md-8 col-sm-12 float-none">
 
 <div class="postContenido">
+<?php if($model->id_usuario == Yii::$app->user->identity->id):?>
 <a class="btn btn-success" href="/index.php?r=post%2Fupdate&id=<?=$model->id?>" role="button">Modificar Post</a>
 <a class="btn btn-success" href="/index.php?r=archivos%2Fcreate&id=<?=$model->id?>">Agregar archivos adjuntos</a>
+<?php endif?>
     <h1><?= Html::encode("{$model->nombre} ") ?></h1>
     <div class="boxPostContentido">
         <?= $model->contenido?>
@@ -165,16 +198,36 @@ $this->params['breadcrumbs'][] = $this->title;
             });
        });
     </script>
+    <?php $archivos = Archivos::find()->where(['id_post' => $model->id])->all();?>
+
+
+<div class="etiquetasPost">
+       <?php $etiquetas = Etiqueta_post::find()->where(['id_post' => $model->id])->all()?>
+       <div class="etiquetasPostContenido">
+       <?php foreach($etiquetas as $etiqueta):?>
+            <?php $eti = Etiqueta::find()->where(['id' => $etiqueta->id_etiqueta])->one();?>
+            <div class="etiqueta">
+            <a href='index.php?r=etiqueta%2Fview&id=<?= $eti->id?>'> <?= $eti->nombre ?></a>
+            </div>
+       <?php endforeach?>
+       </div>
 </div>
 
-<?php $archivos = Archivos::find()->where(['id_post' => $model->id])->all();?>
+
 <?php if($archivos !=null):?>
 <div class="archivosAdjuntos">
+    <div class="archivosAdjuntosHeader">
+        <i class="fas fa-paperclip"></i>
+    </div>
+    <div class="archivosAdjuntosContenido">
     <?php foreach($archivos as $a):?>
-        <a href="<?= $a->url?>" download><?=$a->url?></a>
+       <?php $nombre = explode('/', $a->url);?>
+        <a href="<?= $a->url?>" download><?=$nombre[2]?></a>
         <?php endforeach?>
+    </div>
 </div>
 <?php endif?>
+</div>
 
 
 
@@ -197,7 +250,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php if($comentarios !=0):?>
             <?php $usuario1 = Users::findOne($comennt->id_usuario); ?>
             <?php if ($usuario1->profile_picture ==""):?>
-                        <img src="../image/avatar.png">
+                        <img src="/img/avatar.png">
                     <?php else: ?>
 					    <img src="<?= $usuario1->profile_picture ?>">
             <?php endif ?>
@@ -209,7 +262,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <p><?= $comennt->contenido ?></p>
             <div class="botones-comentario">
                 <p style="color:green">0</p>
-                <button id="like" class="btn" title="Me gusta"> <i class="fa fa-thumbs-up"></i></button>
+                <?= Html::a('', ['post/likecomentario'], ['class' => 'btn fa fa-thumbs-up']) ?>
                 <button id="dislike" class="btn" title="no me gusta"> <i class="fa fa-thumbs-down"></i> </button>
                 <button class="btn" title="responder"> <i class="fa fa-angle-down"></i> </button>
             </div>
@@ -218,12 +271,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php endforeach?>
     
-
+    
     <div class="form-comentario">
+    <?php if(!Yii::$app->user->isGuest):?>
     <div class="form-foto">
     <?php $usuario1 = Users::findOne( Yii::$app->user->identity->id); ?>
             <?php if ($usuario1->profile_picture ==""):?>
-                        <img src="../image/avatar.png">
+                        <img src="../img/avatar.png">
                     <?php else: ?>
 					    <img src="<?= $usuario1->profile_picture ?>">
             <?php endif ?>
@@ -232,6 +286,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($modelComentario, 'contenido')->textInput()->input('contenido',['placeholder' => 'añade un comentario'])->label('Comentar') ?>
     <div class="form-group">
         <?= Html::submitButton('Comentar', ['class' => 'btn btn-success','style' => 'float:right']) ?>
+    </div>
+    <?php else:?>
+        <div class="no-registrado">
+        <p>Para comentar necesitas estar registrado registrate aca:</p>
+        <a class="btn btn-success">Registrarse</a>
+    <?php endif?>
+    
     </div>
     </div>
 

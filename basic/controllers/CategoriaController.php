@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
+use app\models\User;
 use app\models\Categoria;
 use app\models\CategoriaSearch;
 use yii\web\Controller;
@@ -14,12 +16,45 @@ use yii\filters\VerbFilter;
  */
 class CategoriaController extends Controller
 {
-    /**
-     * {@inheritdoc}
+       /**
+     * @inheritdoc
      */
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['create', 'delete', 'update','index','view'],
+                'rules' => [
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['create','delete','update','index','view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                       //Los usuarios simples tienen permisos sobre las siguientes acciones
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserSimple(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                        //Los usuarios guest tienen permisos sobre las siguientes acciones
+                        'actions' => ['view'],
+                        'allow' => false,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserGuest(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -29,8 +64,9 @@ class CategoriaController extends Controller
         ];
     }
 
+
     /**
-     * Lists all Categoria models.
+     * Lists all Notificacion models.
      * @return mixed
      */
     public function actionIndex()

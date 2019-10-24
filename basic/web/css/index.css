@@ -167,6 +167,62 @@
     margin-left: 4px !important;
   }
 
+  .postBox{
+    border-top:1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    display:flex;
+    padding:10px 0px;
+    background-color:white;
+    margin: 8px 0px;
+}
+
+.postBox a{
+    color:black;
+    cursor:pointer;
+}
+
+.postBox p{
+    clear:both;
+}
+
+.postBox .btn{
+    margin:10px;
+    margin-bottom: 10px !important;
+}
+
+.postBox img{
+    float:left;
+    width:120px;  
+}
+
+.postImg{
+    margin:auto 0;
+}
+
+
+.post-titulo-des{
+    padding:0px 8px;
+}
+
+.post-stats{
+    display:flex;
+}
+
+.post-stats .btn-stats{
+    padding:0px 10px;
+}
+
+.etiqueta{
+  display: inline-flex;
+  border-radius: 9px;
+  border-color:#cee0ed;
+  box-shadow: 2px 2px lightgray;
+  padding:5px 5px;
+  background-color: azure;
+  cursor:pointer;
+  margin:2px;
+}
+
   @media (min-width: 768px) {
       .sidenav{
         width:250px;

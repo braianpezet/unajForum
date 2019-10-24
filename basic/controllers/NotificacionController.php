@@ -24,34 +24,33 @@ class NotificacionController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                //'only' => ['logout', 'user'],
+                'only' => ['create', 'delete', 'update','index'],
                 'rules' => [
                     [
                         //El administrador tiene permisos sobre las siguientes acciones
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                        //Esta propiedad establece que tiene permisos
+                        'actions' => ['create','delete','update','index'],
                         'allow' => true,
-                        //Usuarios autenticados, el signo ? es para invitados
                         'roles' => ['@'],
-                        //Este método nos permite crear un filtro sobre la identidad del usuario
-                        //y así establecer si tiene permisos o no
                         'matchCallback' => function ($rule, $action) {
-                            //Llamada al método que comprueba si es un administrador
                             return User::isUserAdmin(Yii::$app->user->identity->id);
                         },
                     ],
                     [
                        //Los usuarios simples tienen permisos sobre las siguientes acciones
-                        'actions' => [],
-                       //Esta propiedad establece que tiene permisos
-                        'allow' => false,
-                       //Usuarios autenticados, el signo ? es para invitados
+                        'actions' => ['create'],
+                        'allow' => true,
                         'roles' => ['@'],
-                       //Este método nos permite crear un filtro sobre la identidad del usuario
-                       //y así establecer si tiene permisos o no
                         'matchCallback' => function ($rule, $action) {
-                          //Llamada al método que comprueba si es un usuario simple
                             return User::isUserSimple(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                        //Los usuarios guest tienen permisos sobre las siguientes acciones
+                        'actions' => [''],
+                        'allow' => false,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::isUserGuest(Yii::$app->user->identity->id);
                         },
                     ],
                 ],
@@ -64,6 +63,7 @@ class NotificacionController extends Controller
             ],
         ];
     }
+
 
     /**
      * Lists all Notificacion models.

@@ -78,6 +78,7 @@ AppAsset::register($this);
                 <a href="/index.php">Inicio</a>
                 <a href='/index.php?r=site%2Fabout'>Acerca de</a>
                 <a href='/index.php?r=site%2Fcontact'>Contacto</a>
+                <a href="index.php?r=site%2Fbuscador">Buscador</a>
             </div>
         </nav>
     

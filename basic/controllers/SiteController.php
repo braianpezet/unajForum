@@ -15,8 +15,14 @@ use app\models\Users;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\Notificacion;
+use app\models\Etiqueta;
+use app\models\Post;
+use app\models\Subcategoria;
+use app\models\Buscador;
+use app\models\Etiqueta_post;
 use app\models\NotificacionSearch;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 
 
 class SiteController extends Controller
@@ -223,6 +229,93 @@ class SiteController extends Controller
         return $this->render('contact', [
             'model' => $model,
         ]);
+    }
+
+    public function actionBuscador(){
+        $model = new Buscador();
+        $tags = Etiqueta::find()->all();
+        $categoria = Subcategoria::find()->all();
+        $tags = ArrayHelper::map($tags, 'id', 'nombre');
+        $categoria = ArrayHelper::map($categoria,'id','nombre');
+        $postCumplen = array();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $buscador = $_POST['Buscador'];
+            $palabraClave = $buscador['pregunta'];
+            $subCategoria = $buscador['categoria'];
+            $tag = $buscador['tag'];
+            if($palabraClave !=""){
+                $post = Post::find()->all();
+                foreach ($post as $p){
+                    if(strstr($p->nombre, $palabraClave) or strstr($p->contenido, $palabraClave)){
+                        $postCumplen [] = $p;
+                    }
+                }
+            }
+            if($subCategoria != null){
+                if($palabraClave == ""){
+                $postSubcategoria = Post::find()->where(['id_subcategoria' => $subCategoria])->all();
+                foreach ($postSubcategoria as $p2){
+                    $postCumplen [] = $p2;
+                }
+                }
+                else{
+                    echo 'else';
+                    foreach($postCumplen as $key => $value)
+                        {
+                            if($value->id_subcategoria != $subCategoria){
+                                unset($postCumplen[$key]);
+                            }
+                        }   
+                }
+            }
+
+            if($tag != ""){
+                $aux = array();
+                $aux2 = array();
+                foreach($tag as $t){
+                    if($palabraClave !=null or $categoria !=null){
+                        $etiquetaPost = Etiqueta_post::find()->where(['id_etiqueta' => $t])->all();
+                        foreach ($etiquetaPost as $e){
+                            $postConTags = Post::find()->where(['id' => $e->id_post])->one();
+                            $aux [] = $postConTags->id;
+                        }
+                        foreach ($postCumplen as $p){
+                            $aux2 [] = $p->id;
+                        }
+                        unset($postCumplen);
+                        $postCumplen = array();
+                        $arraydeids = array_intersect($aux,$aux2);
+                        foreach ($arraydeids as $ids){
+                            $postcumplenaux = Post::find()->where(['id' => $ids])->one();
+                            $postCumplen [] = $postcumplenaux;
+                        } 
+                    }
+                    else{
+                        $etiquetaPost = Etiqueta_post::find()->where(['id_etiqueta' => $t])->all();
+                        foreach ($etiquetaPost as $e){
+                            $postaux2 = Post::find()->where(['id' => $e->id_post])->all();
+                            foreach ($postaux2 as $p){
+                                $postCumplen [] = $p;
+                                $postCumplen = array_unique($postCumplen,SORT_REGULAR);
+                            }                     
+                        }
+                    }
+                }
+            }
+            return $this->render('buscador2',[
+                'postCumplen' => $postCumplen,
+            ]);
+        }
+        return $this->render('buscador',[
+            'categoria'=> $categoria,
+            'model' => $model,
+            'tags' => $tags,
+        ]);
+
+    }
+
+    public function actionBuscador2(){
+        echo 'hola';
     }
 
     /**

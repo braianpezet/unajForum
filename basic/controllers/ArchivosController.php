@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
+use app\models\User;
 use app\models\Archivos;
 use app\models\ArchivosSearch;
 use yii\web\Controller;
@@ -72,9 +74,11 @@ class ArchivosController extends Controller
         $model->file = UploadedFile::getInstances($model,'file');
         if ($model->file !=null){
             foreach ($model->file as $f){
+            var_dump($f);
             $model = new Archivos();
-            $f->saveAs('uploads/'.$imageName.'.'.$f->extension);
-            $model->url = '../uploads/'.$imageName.'.'.$f->extension; /*guardo ruta en db*/
+            $nombre = explode('.',$f->name);
+            $f->saveAs('uploads/'.$nombre[0].'.'.$f->extension);
+            $model->url = '../uploads/'.$nombre[0].'.'.$f->extension; /*guardo ruta en db*/
             $model->id_post = $id;
             $model->save();
             }

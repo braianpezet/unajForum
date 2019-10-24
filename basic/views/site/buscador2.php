@@ -6,19 +6,13 @@ use yii\data\Pagination;
 use yii\widgets\LinkPager;
 use app\models\Subcategoria;
 use app\models\Comentario;
-
-
-$this->title = 'Post';
-
+/* @var $this yii\web\View */
+$this->title = 'Buscador';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-
-<?php $idSubCategoria = Subcategoria::findOne($id); ?>
-
-<a class="btn btn-success" href="/index.php?r=post%2Fcreate&id=<?= Html::encode("{$idSubCategoria->id} ") ?>" role="button">Crear post</a>
-
-<?php if(count($post) != 0):?>
-    <?php foreach($post as $p):?>
+<?php if(count($postCumplen) != 0):?>
+    <?php foreach($postCumplen as $p):?>
         <div class="postBox">
             <div class="postImg">
             <?php if($p->post_picture == null):?>
@@ -50,5 +44,5 @@ $this->title = 'Post';
         </div>
     <?php endforeach?>
     <?php else:?>
-    <h1>No hay ningun post creado</h1>
+    <h1>No se encontraron resultados</h1>
 <?php endif?>
