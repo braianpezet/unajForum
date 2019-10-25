@@ -32,6 +32,7 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+            [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(), 'secret' => '6LfQjL8UAAAAABI8zC6K12qft7d3-eK17NywsuYH', 'uncheckedMessage' => 'Por favor, confirma que no eres un robot.']
         ];
     }
 

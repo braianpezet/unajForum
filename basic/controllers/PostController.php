@@ -304,6 +304,7 @@ class PostController extends Controller
                 $model->save();
                 $datos = $_POST['Etiqueta'];
                 $datos = $datos['id'];
+                if($datos !=null){
                 foreach ($datos as $d){
                     $aux = Etiqueta::find()->where(['id' => $d])->one();
                     if($aux == null){
@@ -321,7 +322,9 @@ class PostController extends Controller
                         $modelEtiquetaPost->id_etiqueta = $aux->id;
                         $modelEtiquetaPost->save();
                     }
+                
                 }
+            }
             }
     
         

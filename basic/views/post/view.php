@@ -145,6 +145,13 @@ $this->params['breadcrumbs'][] = $this->title;
     margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+    .contenido{
+        margin-top:5px;
+        padding:0px;
+    }
+}
+
 
 </style>
 
@@ -152,9 +159,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div style="float:none" class="col-lg-6 col-md-8 col-sm-12 float-none">
 
 <div class="postContenido">
+<?php if(!Yii::$app->user->isGuest):?>
 <?php if($model->id_usuario == Yii::$app->user->identity->id):?>
 <a class="btn btn-success" href="/index.php?r=post%2Fupdate&id=<?=$model->id?>" role="button">Modificar Post</a>
 <a class="btn btn-success" href="/index.php?r=archivos%2Fcreate&id=<?=$model->id?>">Agregar archivos adjuntos</a>
+<?php endif?>
 <?php endif?>
     <h1><?= Html::encode("{$model->nombre} ") ?></h1>
     <div class="boxPostContentido">
@@ -290,7 +299,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else:?>
         <div class="no-registrado">
         <p>Para comentar necesitas estar registrado registrate aca:</p>
-        <a class="btn btn-success">Registrarse</a>
+        <a href="/index.php?r=site/register"class="btn btn-success">Registrarse</a>
     <?php endif?>
     
     </div>

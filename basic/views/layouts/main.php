@@ -45,7 +45,7 @@ AppAsset::register($this);
     <div id='nav'>
         <button id="prueba" class="fa fa-align-justify botonSideNav"></button>
         <div class='logo'>
-            <img src="img/logo.png" alt="Unaj Forum">
+            <img src="img/logo3.png" alt="Unaj Forum">
         </div>
         <div class= 'navDerecha'>
             <?php if (Yii::$app->user->isGuest):?>

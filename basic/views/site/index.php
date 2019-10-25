@@ -16,7 +16,7 @@ $this->title = 'Unaj Forum';
 <style>
 
 .categoria h2{
-    background-color: #2799d7;
+    background-color: #333;
     padding: 10px;
     color:White;
 }
@@ -34,13 +34,14 @@ $this->title = 'Unaj Forum';
     margin: 0px;
     font-weight: bold;
     margin-left:2px;
+    color: #333;
 
 }
 
 .logo2{
     height:40px;
     float:left;
-    background-color: skyblue;
+    background-color: #f99213;
     border-radius: 100px;
     padding: 5px;
 }
@@ -54,8 +55,14 @@ $this->title = 'Unaj Forum';
     margin-top: 50px;
     padding: 15px;
     background-color:white;
-
 }
+
+.masPopulares a{
+    color:black;
+}
+
+
+
 
 </style>
 
@@ -95,13 +102,13 @@ $categoria = Categoria::find()
     </div>
     <div class="aside col-xl-2 col-lg-3 col-md-4 col-sm-12 col-12">
 
-    <div class="masPopulares">
+    <div class="masPopulares" style="margin-top:15px">
         <h3>Preguntas mas populares</h3>
         <?php 
-        $query = Post::find()->orderBy('visitas')->all();
+        $query = Post::find()->orderBy(['visitas' => SORT_DESC])->all();
         $query2 = Post::find()->orderBy(['fecha' => SORT_DESC])->all();
         ?>
-        <?php for ($i = 0; $i <= 2; $i++):?>
+        <?php for ($i = 0; $i <= 4; $i++):?>
             <a style="display:block" href="/index.php?r=post%2Fview&id=<?=$query[$i]->id?>"><?= Html::encode($query[$i]->nombre) ?></a>
         <?php endfor?>
     </div>
@@ -118,7 +125,7 @@ $categoria = Categoria::find()
     </div>
     <div class="Preguntas recientes masPopulares">
         <h3> Ultimas preguntas </h3>
-        <?php for ($i = 0; $i <= 2; $i++):?>
+        <?php for ($i = 0; $i <= 4; $i++):?>
             <a style="display:block" href="/index.php?r=post%2Fview&id=<?=$query2[$i]->id?>"><?= Html::encode($query2[$i]->nombre) ?></a>
         <?php endfor?>
     </div>
