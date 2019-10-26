@@ -89,12 +89,12 @@ $this->params['breadcrumbs'][] = $this->title;
     background-color:transparent;
 }
 
-#like:hover{
-    color:green;
+.like:hover{
+    color:green !important;
 }
 
-#dislike:hover{
-    color:red;
+.dislike:hover{
+    color:red !important;
 }
 
 .archivosAdjuntos{
@@ -270,9 +270,44 @@ $this->params['breadcrumbs'][] = $this->title;
             <p style="color:cornflowerblue"><?= $usuario1->username?> </p>
             <p><?= $comennt->contenido ?></p>
             <div class="botones-comentario">
-                <p style="color:green">0</p>
-                <?= Html::a('', ['post/likecomentario'], ['class' => 'btn fa fa-thumbs-up']) ?>
-                <button id="dislike" class="btn" title="no me gusta"> <i class="fa fa-thumbs-down"></i> </button>
+                <p id="comentarioContador"style="color:green"><?= $comennt->megusta?></p>
+                <a id="like2" class="btn like" title="me gusta" style="color:lightgray"><i class="fa fa-thumbs-up"></i></a>
+                <script>
+                    $('#like2').on("click", () => {
+                            $.ajax({
+                            url: $(location).attr('pathname') + '?r=post/likecomentario',
+                            type: 'post',
+                            data: {
+                                meGusta: 1 , 
+                                id: <?php echo $comennt->id ?> , 
+                                _csrf : '<?=Yii::$app->request->getCsrfToken()?>'
+                            },
+                                success: function (data) {
+                                    $('#comentarioContador').html(data.search); 
+                                    console.log(data.search);
+                                }
+                            });
+                });
+                </script>
+                <a id="dislike3" class="btn dislike" title="no me gusta" style='color:lightgray'> <i class="fa fa-thumbs-down"></i></a>
+                <p id="comentarioContador2"style="color:red"><?= $comennt->dislike?></p>
+                <script>
+                    $('#dislike3').on("click", () => {
+                            $.ajax({
+                            url: $(location).attr('pathname') + '?r=post/likecomentariono',
+                            type: 'post',
+                            data: {
+                                meGusta: 1 , 
+                                id: <?php echo $comennt->id ?> , 
+                                _csrf : '<?=Yii::$app->request->getCsrfToken()?>'
+                            },
+                                success: function (data) {
+                                    $('#comentarioContador2').html(data.search); 
+                                    console.log(data.search);
+                                }
+                            });
+                });
+                </script>
                 <button class="btn" title="responder"> <i class="fa fa-angle-down"></i> </button>
             </div>
         </div>

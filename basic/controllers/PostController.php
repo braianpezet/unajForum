@@ -189,14 +189,30 @@ class PostController extends Controller
 
     public function actionLikecomentario()
     {
-        echo 'hola';
         if (Yii::$app->request->isAjax) {
             $data = Yii::$app->request->post();
             $id = $data['id'];
-            $comentario = new Comentario();
-            $comentario->megusta = $post->megusta + 1;
-            $post->save(false);
-            $search = $post->megusta;
+            $comentario = Comentario::find()->where(['id' => $id])->One();
+            $comentario->megusta = $comentario->megusta +1 ;
+            $comentario->save(false);
+            $search = $comentario->megusta;
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+                'search' => $search,
+                'code' => 100,
+            ];
+        }
+    }
+
+    public function actionLikecomentariono()
+    {
+        if (Yii::$app->request->isAjax) {
+            $data = Yii::$app->request->post();
+            $id = $data['id'];
+            $comentario = Comentario::find()->where(['id' => $id])->One();
+            $comentario->dislike = $comentario->dislike +1 ;
+            $comentario->save(false);
+            $search = $comentario->dislike;
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return [
                 'search' => $search,

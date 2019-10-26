@@ -78,8 +78,8 @@ $categoria = Categoria::find()
     <div class="col-lg-8 col-md-8 col-sm-12">
 <?php if (!Yii::$app->user->isGuest):?>
 <?php if (User::isUserAdmin(Yii::$app->user->identity->id)):?>
-<a class="btn btn-success" href="/index.php?r=categoria%2Fcreate" role="button">Crear categoria</a>
-<a class="btn btn-success" href="/index.php?r=subcategoria%2Fcreate" role="button">Crear sub-categoria</a>
+<a class="btn btn-success" href="/index.php?r=categoria%2Fcreate" role="button"><i class="fas fa-plus"></i> Crear categoria</a>
+<a class="btn btn-success" href="/index.php?r=subcategoria%2Fcreate" role="button"><i class="fas fa-plus"></i> Crear sub-categoria</a>
 <?php endif?>
 <?php endif?>
 <?php foreach($categoria as $c):?>
@@ -103,7 +103,7 @@ $categoria = Categoria::find()
     <div class="aside col-xl-2 col-lg-3 col-md-4 col-sm-12 col-12">
 
     <div class="masPopulares" style="margin-top:15px">
-        <h3>Preguntas mas populares</h3>
+        <h3><i class="fas fa-question"></i> Preguntas mas populares</h3>
         <?php 
         $query = Post::find()->orderBy(['visitas' => SORT_DESC])->all();
         $query2 = Post::find()->orderBy(['fecha' => SORT_DESC])->all();
@@ -113,7 +113,7 @@ $categoria = Categoria::find()
         <?php endfor?>
     </div>
     <div class="etiquetasPopulares masPopulares">
-        <h3>Etiquetas mas pupulares</h3>
+        <h3><i class="fas fa-tags"></i>Tags mas pupulares</h3>
         <?php $etiquetas = Etiqueta::find()->all();?>
         <?php foreach($etiquetas as $etiqueta):?>
         <div class="etiqueta">
@@ -124,7 +124,7 @@ $categoria = Categoria::find()
         <?php endforeach?>
     </div>
     <div class="Preguntas recientes masPopulares">
-        <h3> Ultimas preguntas </h3>
+        <h3><i class="far fa-question-circle"></i> Ultimas preguntas </h3>
         <?php for ($i = 0; $i <= 4; $i++):?>
             <a style="display:block" href="/index.php?r=post%2Fview&id=<?=$query2[$i]->id?>"><?= Html::encode($query2[$i]->nombre) ?></a>
         <?php endfor?>

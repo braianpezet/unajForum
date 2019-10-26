@@ -45,7 +45,7 @@ AppAsset::register($this);
     <div id='nav'>
         <button id="prueba" class="fa fa-align-justify botonSideNav"></button>
         <div class='logo'>
-            <img src="img/logo3.png" alt="Unaj Forum">
+        <a href='/index'> <img src="img/logo3.png" alt="Unaj Forum"></a>
         </div>
         <div class= 'navDerecha'>
             <?php if (Yii::$app->user->isGuest):?>
@@ -75,10 +75,10 @@ AppAsset::register($this);
 <div class="wrap">
         <nav>
             <div id="mySidenav" class="sidenav">
-                <a href="/index.php">Inicio</a>
-                <a href='/index.php?r=site%2Fabout'>Acerca de</a>
-                <a href='/index.php?r=site%2Fcontact'>Contacto</a>
-                <a href="index.php?r=site%2Fbuscador">Buscador</a>
+                <a href="/index.php"><i class="fas fa-home"></i> Inicio</a>
+                <a href='/index.php?r=site%2Fabout'><i class="fas fa-user-friends"></i> Acerca de</a>
+                <a href='/index.php?r=site%2Fcontact'><i class="far fa-address-card"></i> Contacto</a>
+                <a href="index.php?r=site%2Fbuscador"><i class="fas fa-search"></i> Buscador</a>
             </div>
         </nav>
     
