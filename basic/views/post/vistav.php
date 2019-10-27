@@ -40,7 +40,7 @@ $this->title = 'Post';
                 <p><?= count($comentarios) ?> <i class="fa fa-comment"></i></p>
                 </div>
                 <div title="Votos" class="btn-stats">
-                <p>1 <i class="far fa-thumbs-up"></i></p>
+                <p><?= $p->megusta?> <i class="far fa-thumbs-up"></i></p>
                 </div>
                 <div title="visitas" class="btn-stats">
                 <p><?= $p->visitas ?> <i class="fa fa-bar-chart"></i></p>
