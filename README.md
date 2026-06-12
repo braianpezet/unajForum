@@ -1,28 +1,33 @@
 # UNAJ Forum
 
-Sistema de foro académico desarrollado como proyecto de aprendizaje utilizando Yii2 y MySQL.
+<p align="center">
+  <img src="https://www.tecnologiasbraian.com.ar/img/unajforum2.webp" alt="UNAJ Forum">
+</p>
+
+<p align="center">
+  <strong>Foro académico desarrollado con Yii2 y MySQL</strong>
+</p>
 
 ## Descripción
 
-UNAJ Forum es una plataforma web inspirada en los foros tradicionales, diseñada para facilitar la interacción entre estudiantes mediante publicaciones organizadas por categorías y subcategorías.
+UNAJ Forum es una aplicación web desarrollada como proyecto de aprendizaje para implementar una plataforma de discusión similar a los foros tradicionales.
 
-La aplicación permite crear publicaciones, comentar, reaccionar al contenido y gestionar perfiles de usuario, proporcionando una experiencia similar a la de comunidades como Reddit o Stack Overflow en una escala académica.
+El sistema permite a los usuarios registrarse, participar en comunidades organizadas por categorías, crear publicaciones, comentar contenido e interactuar mediante reacciones.
 
-## Características principales
+## Características
 
 * Registro e inicio de sesión de usuarios.
-* Activación de cuentas mediante correo electrónico.
-* Gestión de perfiles de usuario.
-* Creación y administración de publicaciones.
+* Activación de cuentas por correo electrónico.
+* Gestión de perfiles.
+* Publicaciones organizadas por categorías y subcategorías.
 * Sistema de comentarios.
-* Categorías y subcategorías.
-* Etiquetas (tags) para clasificar contenido.
+* Etiquetas (tags).
 * Adjuntos en publicaciones.
-* Sistema de reacciones (me gusta / no me gusta).
-* Notificaciones para los usuarios.
+* Reacciones (me gusta / no me gusta).
+* Notificaciones para usuarios.
 * Panel de administración.
 
-## Tecnologías utilizadas
+## Tecnologías Utilizadas
 
 ### Backend
 
@@ -38,49 +43,38 @@ La aplicación permite crear publicaciones, comentar, reaccionar al contenido y 
 * JavaScript
 * jQuery
 
-### Librerías adicionales
+### Librerías
 
 * CKEditor
 * Select2
 
-## Arquitectura
+## Lo que aprendí
 
-El proyecto sigue el patrón MVC (Model-View-Controller) proporcionado por Yii2.
+Durante el desarrollo de este proyecto trabajé con:
 
-Principales entidades:
-
-* Usuario
-* Categoría
-* Subcategoría
-* Publicación
-* Comentario
-* Etiqueta
-* Notificación
-
-## Capturas de pantalla
-
-> Agregar aquí imágenes de la aplicación.
-
-## Objetivos del proyecto
-
-Este proyecto fue desarrollado con fines educativos para profundizar conocimientos en:
-
-* Desarrollo web full stack.
 * Arquitectura MVC.
-* Diseño de bases de datos relacionales.
-* Gestión de usuarios y permisos.
+* Modelado de bases de datos relacionales.
+* Gestión de autenticación y autorización.
+* Desarrollo Full Stack con Yii2.
+* Relaciones complejas entre entidades.
 * Integración de componentes frontend y backend.
+* Validaciones de formularios.
+* Gestión de roles de usuario.
 
-## Estado del proyecto
+## Capturas de Pantalla
 
-Proyecto finalizado y mantenido únicamente como referencia académica e histórica.
+![Página principal](https://www.tecnologiasbraian.com.ar/img/unajforum2.webp)
 
-Actualmente representa una etapa importante de mi evolución como desarrollador y muchas de las ideas implementadas aquí sirvieron como base para proyectos posteriores.
+
+## Estado del Proyecto
+
+Este proyecto fue desarrollado con fines educativos y actualmente se mantiene como referencia de aprendizaje y evolución profesional.
+
+Aunque fue creado hace varios años, representa una etapa importante en mi formación como desarrollador y me permitió adquirir experiencia en el desarrollo de aplicaciones web completas.
 
 ## Autor
 
 Braian Pezet
 
 * GitHub: https://github.com/braianpezet
-* LinkedIn: (agregar perfil)
-t
+* Sitio web: https://www.tecnologiasbraian.com.ar
