@@ -1,9 +1,4 @@
 # UNAJ Forum
-
-<p align="center">
-  <img src="https://www.tecnologiasbraian.com.ar/img/unajforum2.webp" alt="UNAJ Forum">
-</p>
-
 <p align="center">
   <strong>Foro académico desarrollado con Yii2 y MySQL</strong>
 </p>
